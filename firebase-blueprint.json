@@ -1,0 +1,542 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Authenticated Gather creator or viewer profile and direct payout handles.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Firebase Auth UID",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Public display name",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "email": {
+          "type": "string",
+          "description": "Verified account email",
+          "maxLength": 120
+        },
+        "photoURL": {
+          "type": "string",
+          "description": "Google avatar URL",
+          "maxLength": 500
+        },
+        "paypalHandle": {
+          "type": "string",
+          "description": "Direct PayPal.me username",
+          "maxLength": 60
+        },
+        "venmoHandle": {
+          "type": "string",
+          "description": "Direct Venmo username",
+          "maxLength": 60
+        },
+        "cashappTag": {
+          "type": "string",
+          "description": "Direct Cash App cashtag",
+          "maxLength": 40
+        },
+        "stripeUrl": {
+          "type": "string",
+          "description": "Direct Stripe Payment Link URL",
+          "maxLength": 240
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["uid", "displayName", "createdAt", "updatedAt"]
+    },
+    "StreamSubscription": {
+      "title": "StreamSubscription",
+      "description": "Viewer email subscription to receive alerts when a Gather host schedules or starts an upcoming live stream.",
+      "type": "object",
+      "properties": {
+        "subscriptionId": {
+          "type": "string",
+          "description": "Deterministic ID composed of hostKey and subscriberUid",
+          "minLength": 3,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "hostKey": {
+          "type": "string",
+          "description": "Normalized host channel slug or room identifier",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "hostUid": {
+          "type": "string",
+          "description": "Optional Firebase Auth UID of the host when authenticated",
+          "maxLength": 128
+        },
+        "hostName": {
+          "type": "string",
+          "description": "Display name of the host channel",
+          "minLength": 1,
+          "maxLength": 60
+        },
+        "subscriberUid": {
+          "type": "string",
+          "description": "Firebase Auth UID of the subscribed viewer",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "subscriberEmail": {
+          "type": "string",
+          "description": "Verified Google email address of the viewer",
+          "minLength": 3,
+          "maxLength": 120
+        },
+        "subscriberName": {
+          "type": "string",
+          "description": "Display name of the viewer",
+          "minLength": 1,
+          "maxLength": 60
+        },
+        "active": {
+          "type": "boolean",
+          "description": "Whether upcoming stream email notifications are enabled"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "subscriptionId",
+        "hostKey",
+        "hostName",
+        "subscriberUid",
+        "subscriberEmail",
+        "subscriberName",
+        "active",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "ScheduledStream": {
+      "title": "ScheduledStream",
+      "description": "Upcoming scheduled Gather broadcast saved by an authenticated host.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Scheduled stream document ID",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "hostUid": {
+          "type": "string",
+          "description": "Firebase Auth UID of the host who scheduled the show",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "hostKey": {
+          "type": "string",
+          "description": "Normalized host channel slug or room identifier",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "hostName": {
+          "type": "string",
+          "description": "Host display name",
+          "minLength": 1,
+          "maxLength": 60
+        },
+        "title": {
+          "type": "string",
+          "description": "Broadcast title",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "description": {
+          "type": "string",
+          "description": "Broadcast summary",
+          "maxLength": 500
+        },
+        "scheduledIso": {
+          "type": "string",
+          "description": "Scheduled ISO-8601 timestamp string",
+          "minLength": 10,
+          "maxLength": 40
+        },
+        "roomCode": {
+          "type": "string",
+          "description": "Room code viewers join",
+          "minLength": 2,
+          "maxLength": 24,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "watchMode": {
+          "type": "string",
+          "description": "Stream format mode",
+          "enum": ["standard", "shop", "gamer"],
+          "maxLength": 16
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "hostUid",
+        "hostKey",
+        "hostName",
+        "title",
+        "scheduledIso",
+        "roomCode",
+        "watchMode",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "CustomScene": {
+      "title": "CustomScene",
+      "description": "User-authored custom Studio stage scene preset storing normalized layout boxes, backdrop, and lower-third banner configuration.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Custom scene preset ID",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "ownerUid": {
+          "type": "string",
+          "description": "Firebase Auth UID of the creator who owns this scene preset",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "name": {
+          "type": "string",
+          "description": "Human-readable scene preset name",
+          "minLength": 1,
+          "maxLength": 36
+        },
+        "aspect": {
+          "type": "string",
+          "description": "Stage aspect ratio",
+          "enum": ["16:9", "9:16"],
+          "maxLength": 8
+        },
+        "baseTemplateId": {
+          "type": "string",
+          "description": "Base built-in template identifier",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "elements": {
+          "type": "array",
+          "description": "Bounded list of normalized stage layout boxes (1..12 maps)"
+        },
+        "backdrop": {
+          "type": "string",
+          "description": "Stage backdrop preset identifier",
+          "enum": ["dusk", "graphite", "ember", "forest", "paper"],
+          "maxLength": 16
+        },
+        "bannerTitle": {
+          "type": "string",
+          "description": "Lower-third banner title",
+          "maxLength": 80
+        },
+        "bannerSubtitle": {
+          "type": "string",
+          "description": "Lower-third banner subtitle",
+          "maxLength": 120
+        },
+        "bannerStyle": {
+          "type": "string",
+          "description": "Lower-third banner visual preset",
+          "enum": ["editorial", "broadcast", "glass", "minimal", "block"],
+          "maxLength": 16
+        },
+        "bannerVisible": {
+          "type": "boolean",
+          "description": "Whether lower-third banner is visible when preset is selected"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "ownerUid",
+        "name",
+        "aspect",
+        "baseTemplateId",
+        "elements",
+        "backdrop",
+        "bannerTitle",
+        "bannerSubtitle",
+        "bannerStyle",
+        "bannerVisible",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "RoomSnapshot": {
+      "title": "RoomSnapshot",
+      "description": "Persisted studio configuration snapshot (title, scenes, overlays, brand, commerce catalog, gamer scoreboard, rundown) owned by the verified creator host.",
+      "type": "object",
+      "properties": {
+        "roomCode": {
+          "type": "string",
+          "description": "Room identifier code",
+          "minLength": 2,
+          "maxLength": 12,
+          "pattern": "^[A-Z0-9]+$"
+        },
+        "hostUid": {
+          "type": "string",
+          "description": "Firebase Auth UID of the room host",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "title": {
+          "type": "string",
+          "description": "Broadcast title",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "aspectRatio": {
+          "type": "string",
+          "description": "Canvas aspect ratio",
+          "enum": ["16:9", "9:16"],
+          "maxLength": 8
+        },
+        "watchMode": {
+          "type": "string",
+          "description": "Active broadcast format mode",
+          "enum": ["standard", "shop", "gamer"],
+          "maxLength": 16
+        },
+        "snapshotJson": {
+          "type": "string",
+          "description": "Serialized room state JSON payload",
+          "minLength": 2,
+          "maxLength": 180000
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "roomCode",
+        "hostUid",
+        "title",
+        "aspectRatio",
+        "watchMode",
+        "snapshotJson",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "BrandKit": {
+      "title": "BrandKit",
+      "description": "AI-generated store brand kit, palette, stage typography, transparent gaming HUD / overlay graphics, and product catalog synced across rooms.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Brand kit document ID",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "ownerUid": {
+          "type": "string",
+          "description": "Firebase Auth UID of the creator who owns this brand kit",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "niche": {
+          "type": "string",
+          "enum": ["gaming", "commerce", "podcast", "creator"],
+          "maxLength": 16
+        },
+        "storeName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "storeTagline": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "accentHex": {
+          "type": "string",
+          "maxLength": 16
+        },
+        "secondaryHex": {
+          "type": "string",
+          "maxLength": 16
+        },
+        "backdropPreset": {
+          "type": "string",
+          "enum": ["dusk", "graphite", "ember", "forest", "paper"],
+          "maxLength": 16
+        },
+        "stageFont": {
+          "type": "string",
+          "enum": ["Plus Jakarta Sans", "Instrument Serif", "JetBrains Mono", "Oswald", "Playfair Display"],
+          "maxLength": 40
+        },
+        "frameStyle": {
+          "type": "string",
+          "enum": ["none", "rounded", "sharp", "floating", "cinema"],
+          "maxLength": 24
+        },
+        "nameTagStyle": {
+          "type": "string",
+          "enum": ["glass", "solid", "outline", "minimal"],
+          "maxLength": 24
+        },
+        "bannerStyle": {
+          "type": "string",
+          "enum": ["breaking", "classic", "minimal", "ticker"],
+          "maxLength": 24
+        },
+        "bannerTitle": {
+          "type": "string",
+          "maxLength": 80
+        },
+        "bannerSubtitle": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "logoUrl": {
+          "type": "string",
+          "maxLength": 48000
+        },
+        "backdropUrl": {
+          "type": "string",
+          "maxLength": 48000
+        },
+        "overlayUrl": {
+          "type": "string",
+          "maxLength": 48000
+        },
+        "products": {
+          "type": "array",
+          "description": "Bounded list of up to 4 generated commerce products with vector illustrations"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "ownerUid",
+        "name",
+        "niche",
+        "storeName",
+        "storeTagline",
+        "accentHex",
+        "secondaryHex",
+        "backdropPreset",
+        "stageFont",
+        "frameStyle",
+        "nameTagStyle",
+        "bannerStyle",
+        "bannerTitle",
+        "bannerSubtitle",
+        "logoUrl",
+        "backdropUrl",
+        "overlayUrl",
+        "products",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": {
+        "$ref": "#/entities/UserProfile"
+      },
+      "description": "Creator and viewer profile preferences and direct Super Chat payout handles."
+    },
+    "/subscriptions/{subscriptionId}": {
+      "schema": {
+        "$ref": "#/entities/StreamSubscription"
+      },
+      "description": "PII-protected viewer email subscriptions for upcoming live stream notifications."
+    },
+    "/scheduledShows/{showId}": {
+      "schema": {
+        "$ref": "#/entities/ScheduledStream"
+      },
+      "description": "Upcoming live broadcasts scheduled by authenticated hosts."
+    },
+    "/customScenes/{sceneId}": {
+      "schema": {
+        "$ref": "#/entities/CustomScene"
+      },
+      "description": "Owner-isolated custom Studio scene layout presets synced to the creator's account."
+    },
+    "/rooms/{roomCode}": {
+      "schema": {
+        "$ref": "#/entities/RoomSnapshot"
+      },
+      "description": "Owner-isolated persisted Gather studio room configuration snapshots for automatic server hydration."
+    },
+    "/brandKits/{kitId}": {
+      "schema": {
+        "$ref": "#/entities/BrandKit"
+      },
+      "description": "Owner-isolated AI Brand Kits, Store catalogs, palettes, and custom gaming/broadcast overlays synced across rooms."
+    }
+  }
+}
